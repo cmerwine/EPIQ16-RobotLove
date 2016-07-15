@@ -1,11 +1,13 @@
 use Libraries.Robots.Lego.Button
 use Libraries.Robots.Lego.Sound
 use Libraries.Robots.Lego.Screen
+use Libraries.Robots.Lego.Utility
 
+Utility utility
 Button buttonCtrl
 Sound soundCtrl
 Screen screenCtrl
-soundCtrl:Beep()
+
 /*buttonCtrl:SetLightPattern(3)
 repeat until buttonCtrl:IsButtonPressed(buttonCtrl:ESCAPE_BUTTON)
     if buttonCtrl:IsButtonPressed(buttonCtrl:LEFT_BUTTON)
@@ -21,5 +23,22 @@ repeat until buttonCtrl:IsButtonPressed(buttonCtrl:ESCAPE_BUTTON)
     end
 end
 */
+soundCtrl:PlayTone(1108, 300)
+soundCtrl:PlayTone(987, 300)
+soundCtrl:PlayTone(1108, 300)
+soundCtrl:PlayTone(1244, 300)
+soundCtrl:PlayTone(1108, 300)
+soundCtrl:PlayTone(987, 300)
+soundCtrl:PlayTone(739, 300)
+soundCtrl:PlayTone(830, 600)
+soundCtrl:PlayTone(739, 300)
+soundCtrl:PlayTone(830, 600)
+soundCtrl:PlayTone(987, 1000)
+soundCtrl:PlayTone(1479, 500)
+soundCtrl:PlayTone(1479, 400)
+soundCtrl:PlayTone(1479, 500)
+soundCtrl:PlayTone(1661, 800)
+soundCtrl:PlayTone(1661, 300)
 
-soundCtrl:Buzz()
+
+//soundCtrl:Buzz()
