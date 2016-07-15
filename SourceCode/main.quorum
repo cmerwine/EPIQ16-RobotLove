@@ -5,11 +5,8 @@ use Libraries.Robots.Lego.Screen
 Button buttonCtrl
 Sound soundCtrl
 Screen screenCtrl
-
-screenCtrl:OutputCenterLarge("Hello", 1)
-screenCtrl:OutputCenterLarge("World", 4)
 soundCtrl:Beep()
-buttonCtrl:SetLightPattern(3)
+/*buttonCtrl:SetLightPattern(3)
 repeat until buttonCtrl:IsButtonPressed(buttonCtrl:ESCAPE_BUTTON)
     if buttonCtrl:IsButtonPressed(buttonCtrl:LEFT_BUTTON)
         soundCtrl:PlayTone(1000, 20)
@@ -23,4 +20,6 @@ repeat until buttonCtrl:IsButtonPressed(buttonCtrl:ESCAPE_BUTTON)
         soundCtrl:BeepTwice()
     end
 end
+*/
+
 soundCtrl:Buzz()
