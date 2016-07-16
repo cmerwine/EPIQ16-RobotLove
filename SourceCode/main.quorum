@@ -23,10 +23,21 @@ gyro:SetPort(2)
 //SpinIt()
 //DoLoco()
 MoveItForward(2000, 180)
-MoveItBackward(1000,360)
+MoveItBackward(720, 1000,360)
 SpinIt()
 StraightenIt()
-utility:DelayMilliseconds(5000)
+RotateIt(30)
+MoveItForward(1000, 20)
+utility:DelayMilliseconds(200)
+MoveItBackward(720, 250, 360)
+utility:DelayMilliseconds(250)
+MoveItForward(1000,20)
+utility:DelayMilliseconds(1000)
+MoveItBackward(720, 250, 360)
+SpinIt()
+StraightenIt()
+RotateIt(30)
+
 //MoveItForward(2000, 45)
 //MoveItBackward(1000, 720)
 
@@ -59,11 +70,11 @@ utility:DelayMilliseconds(200)
 end
 end
 
-action MoveItBackward(integer milliseconds, integer wheelSpeed)
+action MoveItBackward(integer degrees, integer milliseconds, integer wheelSpeed)
     motor:SetSpeed("B", wheelSpeed)
     motor:SetSpeed("C", wheelSpeed)
-    motor:RotateBackward("B")
-    motor:RotateBackward("C")
+    motor:RotateByDegrees("B", -degrees)
+    motor:RotateByDegrees("C", -degrees)
     utility:DelayMilliseconds(milliseconds)
 end
 
@@ -146,6 +157,15 @@ end  */
 motor:Stop("B")
 motor:Stop("C")
   
+end
+
+action RotateIt(integer degrees)
+    motor:SetSpeed("B", 20)
+    motor:SetSpeed("C", 20)
+    motor:RotateByDegrees("B", degrees)
+    motor:RotateByDegrees("C", -degrees)
+    motor:Wait("B")
+    motor:Wait("C")
 end
 
 end
