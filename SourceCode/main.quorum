@@ -2,27 +2,38 @@ use Libraries.Robots.Lego.Button
 use Libraries.Robots.Lego.Sound
 use Libraries.Robots.Lego.Screen
 use Libraries.Robots.Lego.Utility
+use Libraries.Robots.Lego.Motor
+use Libraries.Robots.Lego.GyroSensor
+use Libraries.Compute.Math
 
+
+class Main
+Math math
+Motor motor
 Utility utility
 Button buttonCtrl
 Sound soundCtrl
 Screen screenCtrl
+GyroSensor gyro
+   action Main
 
-/*buttonCtrl:SetLightPattern(3)
-repeat until buttonCtrl:IsButtonPressed(buttonCtrl:ESCAPE_BUTTON)
-    if buttonCtrl:IsButtonPressed(buttonCtrl:LEFT_BUTTON)
-        soundCtrl:PlayTone(1000, 20)
-    elseif buttonCtrl:IsButtonPressed(buttonCtrl:RIGHT_BUTTON)
-        soundCtrl:PlayTone(2000, 20)
-    elseif buttonCtrl:IsButtonPressed(buttonCtrl:UP_BUTTON)
-        soundCtrl:BeepSequenceUp()
-    elseif buttonCtrl:IsButtonPressed(buttonCtrl:DOWN_BUTTON)
-        soundCtrl:BeepSequenceDown()
-    elseif buttonCtrl:IsButtonPressed(buttonCtrl:CENTER_BUTTON)
-        soundCtrl:BeepTwice()
-    end
+gyro:SetPort(2)
+
+//DoLoco()
+//SpinIt()
+//DoLoco()
+MoveItForward(2000, 180)
+MoveItBackward(1000,360)
+SpinIt()
+StraightenIt()
+utility:DelayMilliseconds(5000)
+//MoveItForward(2000, 45)
+//MoveItBackward(1000, 720)
+
+
 end
-*/
+action DoLoco
+repeat 2 times
 soundCtrl:PlayTone(1108, 300)
 soundCtrl:PlayTone(987, 300)
 soundCtrl:PlayTone(1108, 300)
@@ -34,11 +45,108 @@ soundCtrl:PlayTone(830, 600)
 soundCtrl:PlayTone(739, 300)
 soundCtrl:PlayTone(830, 600)
 soundCtrl:PlayTone(987, 1000)
+soundCtrl:PlayTone(1479, 300)
 soundCtrl:PlayTone(1479, 500)
 soundCtrl:PlayTone(1479, 400)
 soundCtrl:PlayTone(1479, 500)
 soundCtrl:PlayTone(1661, 800)
 soundCtrl:PlayTone(1661, 300)
+soundCtrl:PlayTone(1661, 300)
+soundCtrl:PlayTone(1661, 300)
+soundCtrl:PlayTone(1661, 300)
+soundCtrl:PlayTone(1661, 700)
+utility:DelayMilliseconds(200)
+end
+end
 
+action MoveItBackward(integer milliseconds, integer wheelSpeed)
+    motor:SetSpeed("B", wheelSpeed)
+    motor:SetSpeed("C", wheelSpeed)
+    motor:RotateBackward("B")
+    motor:RotateBackward("C")
+    utility:DelayMilliseconds(milliseconds)
+end
 
-//soundCtrl:Buzz()
+action MoveItForward(integer milliseconds,integer wheelSpeed)
+    motor:SetSpeed("B", wheelSpeed)
+    motor:SetSpeed("C", wheelSpeed)
+    motor:RotateForward("B")
+    motor:RotateForward("C")
+    utility:DelayMilliseconds(milliseconds)
+end
+
+action StraightenIt
+       index = 2.25
+       switcher = -1
+       integer finalRotation = 25
+       repeat until finalRotation  < 5 and finalRotation > 0
+       rotatedNumber = gyro:GetRotation()
+       rotatedInteger = math:AbsoluteValue(cast(integer, rotatedNumber))
+       finalRotation = rotatedInteger mod 360
+       text message = cast(text, finalRotation)
+        screenCtrl:Output(message, 1)
+       if finalRotation > 180
+           finalRotation = -1*finalRotation
+        
+        elseif finalRotation = 0
+           finalRotation = finalRotation + 5
+        end
+
+       motor:SetSpeed("C",20)
+       motor:SetSpeed("B",20)
+       motor:RotateByDegrees("B",index  * finalRotation)
+       motor:RotateByDegrees("C",index  * -finalRotation)
+       motor:Wait("B")
+       motor:Wait("C")
+       finalRotation = math:AbsoluteValue(cast(integer, gyro:GetRotation())mod 360)
+       //index = 0.95 * index
+       //switcher = -1 * switcher
+       screenCtrl:Output(cast(text, finalRotation),4)
+       utility:DelayMilliseconds(100)
+       end
+end
+
+action SpinIt
+    motor:SetSpeed("B", 60)
+    motor:SetSpeed("C", 60)
+    motor:SetSpeed("A", 360)
+    motor:RotateByDegrees("B",-3060)
+    motor:RotateByDegrees("C",3060)
+
+repeat 5 times    
+    motor:RotateByDegrees("A",120)
+    motor:Wait("A")
+    motor:RotateByDegrees("A",-120)
+    motor:Wait("A")
+end
+/*repeat 2 times
+soundCtrl:PlayTone(1108, 300)
+soundCtrl:PlayTone(987, 300)
+soundCtrl:PlayTone(1108, 300)
+soundCtrl:PlayTone(1244, 300)
+soundCtrl:PlayTone(1108, 300)
+soundCtrl:PlayTone(987, 300)
+soundCtrl:PlayTone(739, 300)
+soundCtrl:PlayTone(830, 600)
+soundCtrl:PlayTone(739, 300)
+soundCtrl:PlayTone(830, 600)
+soundCtrl:PlayTone(987, 1000)
+soundCtrl:PlayTone(1479, 300)
+soundCtrl:PlayTone(1479, 500)
+soundCtrl:PlayTone(1479, 400)
+soundCtrl:PlayTone(1479, 500)
+soundCtrl:PlayTone(1661, 800)
+soundCtrl:PlayTone(1661, 300)
+soundCtrl:PlayTone(1661, 300)
+soundCtrl:PlayTone(1661, 300)
+soundCtrl:PlayTone(1661, 300)
+soundCtrl:PlayTone(1661, 700)
+utility:DelayMilliseconds(200)
+end  */
+motor:Stop("B")
+motor:Stop("C")
+  
+end
+
+end
+
