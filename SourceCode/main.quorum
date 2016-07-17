@@ -24,6 +24,7 @@ gyro:SetPort(2)
 //DoLoco()
 MoveItForward(2000, 180)
 MoveItBackward(720, 1000,360)
+gyro:Reset()
 SpinIt()
 StraightenIt()
 RotateIt(30)
@@ -34,6 +35,9 @@ utility:DelayMilliseconds(250)
 MoveItForward(1000,20)
 utility:DelayMilliseconds(1000)
 MoveItBackward(720, 250, 360)
+
+//DoLoco()
+gyro:Reset()
 SpinIt()
 StraightenIt()
 RotateIt(30)
@@ -94,10 +98,14 @@ action StraightenIt
        rotatedNumber = gyro:GetRotation()
        rotatedInteger = math:AbsoluteValue(cast(integer, rotatedNumber))
        finalRotation = rotatedInteger mod 360
-       text message = cast(text, finalRotation)
-        screenCtrl:Output(message, 1)
+       //text message = cast(text, finalRotation)
+        //screenCtrl:Output(message, 1)
        if finalRotation > 180
-           finalRotation = -1*finalRotation
+            finalRotation = 360 - finalRotation
+            text message = cast(text, finalRotation)
+            screenCtrl:Output(message, 1)
+           finalRotation = -1*(360-finalRotation)
+            
         
         elseif finalRotation = 0
            finalRotation = finalRotation + 5
@@ -110,6 +118,10 @@ action StraightenIt
        motor:Wait("B")
        motor:Wait("C")
        finalRotation = math:AbsoluteValue(cast(integer, gyro:GetRotation())mod 360)
+       if finalRotation > 180
+           finalRotation = -1 * (360-finalRotation)
+         
+           end
        //index = 0.95 * index
        //switcher = -1 * switcher
        screenCtrl:Output(cast(text, finalRotation),4)
