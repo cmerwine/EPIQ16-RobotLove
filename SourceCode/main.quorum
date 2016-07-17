@@ -94,38 +94,33 @@ action StraightenIt
        index = 2.25
        switcher = -1
        integer finalRotation = 25
-       repeat until finalRotation  < 5 and finalRotation > 0
-       rotatedNumber = gyro:GetRotation()
-       rotatedInteger = math:AbsoluteValue(cast(integer, rotatedNumber))
-       finalRotation = rotatedInteger mod 360
+       repeat until finalRotation  < 5 
+       rotatedNumber = (cast( integer, (gyro:GetRotation()))) mod 360
+       text message = cast(text, rotatedNumber)
+       screenCtrl:Output(message, 1)
+       rotatedInteger = math:AbsoluteValue(rotatedNumber)
+       finalRotation = rotatedInteger
        //text message = cast(text, finalRotation)
         //screenCtrl:Output(message, 1)
        if finalRotation > 180
             finalRotation = 360 - finalRotation
-            text message = cast(text, finalRotation)
-            screenCtrl:Output(message, 1)
-           finalRotation = -1*(360-finalRotation)
+          
+           finalRotation = -1*finalRotation
             
         
         elseif finalRotation = 0
            finalRotation = finalRotation + 5
         end
-
+           
        motor:SetSpeed("C",20)
        motor:SetSpeed("B",20)
        motor:RotateByDegrees("B",index  * finalRotation)
        motor:RotateByDegrees("C",index  * -finalRotation)
        motor:Wait("B")
        motor:Wait("C")
-       finalRotation = math:AbsoluteValue(cast(integer, gyro:GetRotation())mod 360)
-       if finalRotation > 180
-           finalRotation = -1 * (360-finalRotation)
-         
-           end
-       //index = 0.95 * index
-       //switcher = -1 * switcher
-       screenCtrl:Output(cast(text, finalRotation),4)
+
        utility:DelayMilliseconds(100)
+       finalRotation = (math:AbsoluteValue(cast(integer, gyro:GetRotation()) mod 360))
        end
 end
 
